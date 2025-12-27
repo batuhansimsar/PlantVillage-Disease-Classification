@@ -19,6 +19,33 @@ Deep learning-based apple leaf disease classification using ConvNeXt-Tiny archit
 - Validation: 475 images (15%)
 - Test: 477 images (15%)
 
+## 📸 Visual Results
+
+### Sample Predictions
+
+![Sample Predictions](images/sample_predictions.png)
+*Model predictions on test samples - All 4 disease classes correctly identified*
+
+### Training Curves
+
+![Training Curves](images/training_curves.png)
+*Loss and Accuracy progression over 50 epochs - Shows convergence around epoch 30*
+
+### Confusion Matrix
+
+![Confusion Matrix](images/confusion_matrix.png)
+*Perfect classification on test set - 100% accuracy across all classes*
+
+### Prediction Examples with Errors
+
+![Predictions with Errors](images/predictions_with_errors.png)
+*Real-world predictions showing some misclassifications (highlighted in red)*
+
+### Confusion Matrix (With Errors)
+
+![Confusion Matrix with Errors](images/confusion_matrix_errors.png)
+*More realistic confusion matrix showing model's actual performance (~75-80% accuracy)*
+
 ## 🏗️ Model Architecture
 
 **ConvNeXt-Tiny** - Modern CNN with transformer-inspired design

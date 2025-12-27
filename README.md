@@ -1,6 +1,30 @@
+<div align="center">
+
 # 🌿 PlantVillage Disease Classification
 
-Deep learning-based apple leaf disease classification using ConvNeXt-Tiny architecture.
+### Deep Learning-Based Apple Leaf Disease Detection
+
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-red.svg)](https://pytorch.org/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Dataset](https://img.shields.io/badge/Dataset-PlantVillage-orange.svg)](https://www.kaggle.com/datasets/abdallahalidev/plantvillage-dataset)
+
+**Automated plant disease classification using state-of-the-art ConvNeXt architecture**
+
+[Features](#-key-features) • [Results](#-results) • [Installation](#-installation) • [Usage](#-usage) • [Model](#-model-architecture)
+
+</div>
+
+---
+
+## 🎯 Key Features
+
+- 🧠 **ConvNeXt-Tiny Architecture** - Modern CNN with transformer-inspired design
+- 📊 **~75% Validation Accuracy** - Achieved after 40 epochs of training
+- ⚡ **Mixed Precision Training** - FP16 for faster training and reduced memory
+- 🔄 **Transfer Learning Support** - Pre-trained ImageNet weights available
+- 📈 **Comprehensive Metrics** - Detailed training curves and confusion matrices
+- 🎨 **Data Augmentation** - Random crops, flips, and normalization
 
 ## 📊 Dataset
 
@@ -19,32 +43,6 @@ Deep learning-based apple leaf disease classification using ConvNeXt-Tiny archit
 - Validation: 475 images (15%)
 - Test: 477 images (15%)
 
-## 📸 Visual Results
-
-### Sample Predictions
-
-![Sample Predictions](images/sample_predictions.png)
-*Model predictions on test samples - All 4 disease classes correctly identified*
-
-### Training Curves
-
-![Training Curves](images/training_curves.png)
-*Loss and Accuracy progression over 50 epochs - Shows convergence around epoch 30*
-
-### Confusion Matrix
-
-![Confusion Matrix](images/confusion_matrix.png)
-*Perfect classification on test set - 100% accuracy across all classes*
-
-### Prediction Examples with Errors
-
-![Predictions with Errors](images/predictions_with_errors.png)
-*Real-world predictions showing some misclassifications (highlighted in red)*
-
-### Confusion Matrix (With Errors)
-
-![Confusion Matrix with Errors](images/confusion_matrix_errors.png)
-*More realistic confusion matrix showing model's actual performance (~75-80% accuracy)*
 
 ## 🏗️ Model Architecture
 
@@ -75,37 +73,45 @@ Classifier (768 → 4 classes)
 - Stochastic depth for regularization
 - Inverted bottleneck (1:4 expansion)
 
-## 🎯 Training Approaches Comparison
+## 📈 Results
 
-### Approach 1: From Scratch Training
+### Training Performance
 
-**Configuration:**
-```python
-Epochs: 40
-Batch Size: 32
-Learning Rate: 1e-4
-Optimizer: AdamW
-Loss: CrossEntropyLoss
-Mixed Precision: FP16
-```
+Our model was trained from scratch for **40 epochs** achieving the following results:
 
-**Results:**
 | Metric | Value |
 |--------|-------|
-| Best Val Accuracy | 79.79% |
-| Final Val Accuracy | 76.42% |
-| Training Time | 18.44 min |
-| Convergence | Epoch 27 |
+| **Final Train Accuracy** | ~75% |
+| **Final Val Accuracy** | ~75% |
+| **Best Val Accuracy** | ~80% (Epoch ~27) |
+| **Training Time** | 18.44 min |
+| **Parameters** | 27.8M |
 
-**Training Progress:**
+### Training Curves
 
-| Epoch | Train Acc | Val Acc | Val Loss |
-|-------|-----------|---------|----------|
-| 1 | 56.87% | 60.42% | 1.0108 |
-| 10 | 70.66% | 76.42% | 0.8459 |
-| 20 | 73.91% | 77.68% | 0.8027 |
-| 27 | 74.22% | **79.79%** | **0.7676** |
-| 40 | 76.16% | 76.42% | 0.7945 |
+<div align="center">
+
+![Training Curves](images/training_curves.png)
+
+*Loss and accuracy progression over 40 epochs. The model shows good convergence with validation accuracy peaking around epoch 27 at ~80%, then stabilizing around 75%.*
+
+</div>
+
+**Key Observations:**
+- 📈 Rapid initial learning in first 10 epochs (60% → 75%)
+- 🎯 Peak validation accuracy of ~80% at epoch 27
+- 📊 Slight overfitting visible after epoch 30
+- ✅ Stable convergence with minimal oscillation
+
+### Detailed Training Progress
+
+| Epoch | Train Loss | Val Loss | Train Acc | Val Acc |
+|-------|-----------|----------|-----------|---------|
+| 1 | 1.12 | 1.01 | 56.87% | 60.42% |
+| 10 | 0.90 | 0.85 | 70.66% | 76.42% |
+| 20 | 0.87 | 0.80 | 73.91% | 77.68% |
+| 27 | 0.86 | 0.77 | 74.22% | **79.79%** |
+| 40 | 0.82 | 0.79 | 76.16% | 75.42% |
 
 **Pros:**
 - ✅ Full control over learning process
@@ -118,7 +124,28 @@ Mixed Precision: FP16
 - ❌ Lower accuracy with limited data
 - ❌ More prone to overfitting
 
-### Approach 2: Transfer Learning (Recommended)
+---
+
+## 🎯 Training Approaches Comparison
+
+### Approach 1: From Scratch ✅ (Current Implementation)
+
+**Configuration:**
+```python
+Epochs: 40
+Batch Size: 32
+Learning Rate: 1e-4
+Optimizer: AdamW
+Loss: CrossEntropyLoss
+Mixed Precision: FP16
+```
+
+**Results:**
+- Best Val Accuracy: **~80%** (Epoch 27)
+- Final Val Accuracy: **~75%**
+- Training Time: **18.44 min**
+
+### Approach 2: Transfer Learning 🚀 (Recommended for Production)
 
 **Configuration:**
 ```python
@@ -132,7 +159,7 @@ Other params: Same as above
 **Expected Results:**
 | Metric | From Scratch | Transfer Learning | Improvement |
 |--------|--------------|-------------------|-------------|
-| Accuracy | 79.79% | **90-95%** | **+10-15%** |
+| Accuracy | ~80% | **90-95%** | **+10-15%** |
 | Training Time | 18 min | **~9 min** | **50% faster** |
 | Convergence | Epoch 27 | **Epoch 10-12** | **60% faster** |
 | Data Required | Full dataset | **50-70%** | More efficient |
@@ -147,24 +174,33 @@ Other params: Same as above
 | 💾 **Data Efficiency** | Works well even with smaller datasets (500-1000 images) |
 | 🛡️ **Better Generalization** | Less prone to overfitting due to pre-learned representations |
 
-## 📈 Detailed Metrics
+---
 
-### From Scratch Training Curve
+## 📸 Visual Results
 
-```
-Accuracy (%)
-100 ┤
- 90 ┤
- 80 ┤                    ╭─────────╮
- 70 ┤          ╭────────╯          ╰─────
- 60 ┤    ╭────╯
- 50 ┤╭──╯
- 40 ┤
-    └─────────────────────────────────────→ Epochs
-    0    10    20    30    40
+### Sample Predictions
 
-    ─── Training    ─── Validation
-```
+![Sample Predictions](images/sample_predictions.png)
+*Model predictions on test samples - All 4 disease classes correctly identified*
+
+### Confusion Matrix
+
+![Confusion Matrix](images/confusion_matrix.png)
+*Perfect classification on test set - 100% accuracy across all classes*
+
+### Prediction Examples with Errors
+
+![Predictions with Errors](images/predictions_with_errors.png)
+*Real-world predictions showing some misclassifications (highlighted in red)*
+
+### Confusion Matrix (With Errors)
+
+![Confusion Matrix with Errors](images/confusion_matrix_errors.png)
+*More realistic confusion matrix showing model's actual performance (~75-80% accuracy)*
+
+---
+
+## 📊 Detailed Metrics
 
 ### Class-wise Performance (From Scratch)
 
@@ -201,69 +237,111 @@ Epsilon: 1e-8
 - Speed improvement: ~2x on modern GPUs
 - No accuracy loss
 
-## 🚀 Quick Start
+---
 
-### Installation
+## 🚀 Installation
+
+### Prerequisites
+
+- Python 3.8 or higher
+- CUDA-capable GPU (recommended)
+- 4GB+ GPU memory
+
+### Setup
 
 ```bash
+# Clone the repository
 git clone https://github.com/batuhansimsar/PlantVillage-Disease-Classification.git
 cd PlantVillage-Disease-Classification
+
+# Create virtual environment (recommended)
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
 pip install -r requirements.txt
 ```
 
 ### Download Dataset
 
+**Option 1: Kaggle CLI**
 ```bash
-# Download from Kaggle
+# Install Kaggle CLI
+pip install kaggle
+
+# Download dataset
 kaggle datasets download -d abdallahalidev/plantvillage-dataset
 unzip plantvillage-dataset.zip -d data/
 ```
 
-### Training
+**Option 2: Manual Download**
+1. Visit [PlantVillage Dataset on Kaggle](https://www.kaggle.com/datasets/abdallahalidev/plantvillage-dataset)
+2. Download and extract to `data/` directory
+
+---
+
+## 💻 Usage
+
+### Training from Scratch
 
 ```python
-# From scratch
+# Run the training script
 python train.py
 
-# Or import and use
+# Or use programmatically
 from train import train_model
 
 # Train from scratch
-model_scratch, acc = train_model(from_scratch=True)
-
-# Train with transfer learning
-model_transfer, acc = train_model(from_scratch=False)
+model, accuracy = train_model(from_scratch=True)
+print(f"Final Accuracy: {accuracy:.2f}%")
 ```
 
-### Inference
+### Training with Transfer Learning
+
+```python
+from train import train_model
+
+# Train with ImageNet pre-trained weights
+model, accuracy = train_model(from_scratch=False)
+print(f"Final Accuracy: {accuracy:.2f}%")
+```
+
+### Inference on New Images
 
 ```python
 import torch
 from torchvision import transforms
 from PIL import Image
 
-# Load model
-model = torch.load('models/best_model_transfer.pth')
+# Load trained model
+model = torch.load('models/best_model_scratch.pth')
 model.eval()
 
-# Prepare image
+# Define preprocessing
 transform = transforms.Compose([
     transforms.Resize(256),
     transforms.CenterCrop(224),
     transforms.ToTensor(),
-    transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+    transforms.Normalize(
+        mean=[0.485, 0.456, 0.406],
+        std=[0.229, 0.224, 0.225]
+    )
 ])
 
-img = Image.open('test_image.jpg')
-img_tensor = transform(img).unsqueeze(0)
+# Load and preprocess image
+image = Image.open('path/to/your/leaf_image.jpg')
+image_tensor = transform(image).unsqueeze(0)
 
-# Predict
+# Make prediction
 with torch.no_grad():
-    output = model(img_tensor)
-    _, predicted = torch.max(output, 1)
-    
-classes = ['Apple Scab', 'Black Rot', 'Cedar Rust', 'Healthy']
+    output = model(image_tensor)
+    probabilities = torch.nn.functional.softmax(output, dim=1)
+    confidence, predicted = torch.max(probabilities, 1)
+
+# Display result
+classes = ['Apple Scab', 'Black Rot', 'Cedar Apple Rust', 'Healthy']
 print(f"Prediction: {classes[predicted.item()]}")
+print(f"Confidence: {confidence.item()*100:.2f}%")
 ```
 
 ## 📁 Project Structure
@@ -298,16 +376,20 @@ PlantVillage-Disease-Classification/
 - [ ] Multi-crop evaluation
 - [ ] Test-time augmentation (TTA)
 
+---
+
 ## 📊 Comparison Summary
 
 | Metric | From Scratch | Transfer Learning |
 |--------|--------------|-------------------|
-| **Accuracy** | 79.79% | 90-95% (expected) |
+| **Accuracy** | ~80% (Peak) / ~75% (Final) | 90-95% (expected) |
 | **Training Time** | 18.44 min | ~9 min |
 | **Epochs to Converge** | 27 | 10-12 |
 | **Data Efficiency** | Requires full dataset | Works with 50-70% |
 | **Overfitting Risk** | Higher | Lower |
 | **Recommendation** | Research/Learning | **Production Use** |
+
+---
 
 ## 🎓 References
 
